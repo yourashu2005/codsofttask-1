@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Simple Calculator</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+        }
+
+        .calculator {
+            background-color: #fff;
+            border-radius: 10px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+            width: 300px;
+            padding: 20px;
+        }
+
+        .display {
+            background-color: #222;
+            color: #fff;
+            font-size: 2em;
+            padding: 20px;
+            text-align: right;
+            border-radius: 5px;
+            margin-bottom: 20px;
+            height: 60px;
+            display: flex;
+            justify-content: flex-end;
+            align-items: center;
+        }
+
+        .buttons {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 10px;
+        }
+
+        .button {
+            background-color: #f0f0f0;
+            border: none;
+            padding: 20px;
+            font-size: 1.5em;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+
+        .button:hover {
+            background-color: #ddd;
+        }
+
+        .button:active {
+            background-color: #ccc;
+        }
+
+        .operator {
+            background-color: #ff9f00;
+            color: white;
+        }
+
+        .operator:hover {
+            background-color: #e68a00;
+        }
+
+        .equal {
+            background-color: #28a745;
+            color: white;
+            grid-column: span 2;
+        }
+
+        .clear {
+            background-color: #dc3545;
+            color: white;
+            grid-column: span 2;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="calculator">
+        <div class="display" id="display">0</div>
+        <div class="buttons">
+            <button class="button clear" onclick="clearDisplay()">C</button>
+            <button class="button operator" onclick="setOperator('/')">/</button>
+            <button class="button operator" onclick="setOperator('*')">*</button>
+            <button class="button operator" onclick="setOperator('-')">-</button>
+            <button class="button" onclick="appendToDisplay('7')">7</button>
+            <button class="button" onclick="appendToDisplay('8')">8</button>
+            <button class="button" onclick="appendToDisplay('9')">9</button>
+            <button class="button operator" onclick="setOperator('+')">+</button>
+            <button class="button" onclick="appendToDisplay('4')">4</button>
+            <button class="button" onclick="appendToDisplay('5')">5</button>
+            <button class="button" onclick="appendToDisplay('6')">6</button>
+            <button class="button equal" onclick="calculateResult()">=</button>
+            <button class="button" onclick="appendToDisplay('1')">1</button>
+            <button class="button" onclick="appendToDisplay('2')">2</button>
+            <button class="button" onclick="appendToDisplay('3')">3</button>
+            <button class="button" onclick="appendToDisplay('0')">0</button>
+            <button class="button" onclick="appendToDisplay('.')">.</button>
+        </div>
+    </div>
+
+    <script>
+        let currentInput = '';  // Stores the current input value
+        let previousInput = ''; // Stores the value before the operator
+        let operator = null;    // Stores the current operator
+
+        function clearDisplay() {
+            currentInput = '';
+            previousInput = '';
+            operator = null;
+            document.getElementById('display').textContent = '0';
+        }
+
+        function appendToDisplay(value) {
+            if (currentInput === '0' && value !== '.') {
+                currentInput = value;
+            } else {
+                currentInput += value;
+            }
+            document.getElementById('display').textContent = currentInput;
+        }
+
+        function setOperator(op) {
+            if (currentInput === '') return; // Don't set operator if current input is empty
+
+            if (previousInput === '') {
+                previousInput = currentInput;
+                currentInput = '';
+            } else {
+                calculateResult();  // If there's already an operator, perform the calculation
+                previousInput = currentInput;  // Save the result as the previous input
+                currentInput = '';
+            }
+
+            operator = op;
+        }
+
+        function calculateResult() {
+            if (currentInput === '' || previousInput === '') {
+                return; // Return if there's nothing to calculate
+            }
+
+            try {
+                let result = eval(previousInput + operator + currentInput);
+                currentInput = result.toString();  // Convert result back to string
+                document.getElementById('display').textContent = currentInput;
+                previousInput = '';
+                operator = null;  // Reset after calculation
+            } catch (error) {
+                document.getElementById('display').textContent = 'Error'; // Display error if something goes wrong
+            }
+        }
+
+        // Optional: Add event listener for keyboard support
+        document.addEventListener('keydown', function(event) {
+            const key = event.key;
+            if ('0123456789'.includes(key)) {
+                appendToDisplay(key);
+            } else if ('+-*/'.includes(key)) {
+                setOperator(key);
+            } else if (key === 'Enter') {
+                calculateResult();
+            } else if (key === 'Escape') {
+                clearDisplay();
+            }
+        });
+    </script>
+
+</body>
+</html>
