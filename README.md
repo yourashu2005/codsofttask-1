@@ -13,6 +13,7 @@ OverView Of The Project
 Project:Calculator using Html,Css,JavaScript
 
 *OBJECTIVE*
+----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 The objective of this project is to design and develop a fully functional calculator using HTML, CSS, and JavaScript. The calculator will allow users to perform basic arithmetic operations such as addition, subtraction, multiplication, and division with an intuitive and user-friendly interface. The project aims to demonstrate proficiency in frontend development, including the creation of responsive layouts, interactive elements, and dynamic behavior through DOM manipulation and event handling in JavaScript.
 -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 *Key Activities*
